@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="index.html">
+    <meta charset="UTF-8">
+    <title>Seller Dashboard - Usman Digital Store</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            display: flex;
+            background: #f1f5f9;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            background: #0f172a;
+            color: white;
+            padding: 15px;
+        }
+
+        .sidebar h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar button {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0;
+            border: none;
+            background: #2563eb;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .sidebar button:hover {
+            background: #1d4ed8;
+        }
+
+        /* MAIN */
+        .main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        /* CARDS */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* FORM */
+        input {
+            width: 95%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button.add {
+            width: 100%;
+            padding: 10px;
+            background: #16a34a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button.add:hover {
+            background: #15803d;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>SELLER PANEL</h2>
+
+        <button onclick="show('dashboard')">Dashboard</button>
+        <button onclick="show('add')">Add Product</button>
+        <button onclick="show('orders')">Orders</button>
+        <button onclick="show('earnings')">Earnings</button>
+        <button onclick="goBack()">⬅ Back to Index</button>
+
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <!-- DASHBOARD -->
+        <div id="dashboard">
+            <h2>Welcome Seller</h2>
+
+            <div class="cards">
+                <div class="card">Total Products: 10</div>
+                <div class="card">Orders: 5</div>
+                <div class="card">Earnings: Rs 5000</div>
+            </div>
+        </div>
+
+        <!-- ADD PRODUCT -->
+        <div id="add" style="display:none">
+            <h2>Add Product</h2>
+
+            <input id="name" placeholder="Product Name">
+            <input id="price" placeholder="Price">
+            <input id="img" placeholder="Image URL">
+
+            <button class="add" onclick="addProduct()">Add Product</button>
+        </div>
+
+        <!-- ORDERS -->
+        <div id="orders" style="display:none">
+            <h2>Orders</h2>
+            <p>No orders yet (demo)</p>
+        </div>
+
+        <!-- EARNINGS -->
+        <div id="earnings" style="display:none">
+            <h2>Earnings</h2>
+            <p>Rs 0 (demo)</p>
+        </div>
+
+    </div>
+
+    <script>
+
+        function show(id) {
+            document.querySelectorAll('.main > div').forEach(d => d.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+        }
+
+        /* DEMO PRODUCT ADD */
+        function addProduct() {
+            alert(
+                "Product Added:\n" +
+                name.value + "\n" +
+                price.value
+            );
+        }
+    </script>
+    <script>
+        function goBack() {
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+
+</html>

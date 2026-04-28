@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VIP Pro Admin Dashboard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial,sans-serif;}
+
+body{
+display:flex;
+min-height:100vh;
+background:linear-gradient(135deg,#050816,#0b1220);
+color:#e5e7eb;
+}
+
+/* SIDEBAR */
+.sidebar{
+width:270px;
+background:rgba(17,24,39,0.95);
+backdrop-filter:blur(10px);
+padding:20px;
+border-right:1px solid #1f2937;
+}
+
+.brand{
+font-size:20px;
+font-weight:bold;
+color:#22d3ee;
+margin-bottom:20px;
+}
+
+.nav a{
+display:block;
+padding:12px;
+margin:6px 0;
+border-radius:10px;
+text-decoration:none;
+color:#cbd5e1;
+cursor:pointer;
+transition:0.3s;
+background:#111827;
+}
+
+.nav a:hover{
+background:#22d3ee;
+color:#000;
+transform:translateX(4px);
+}
+
+/* MAIN */
+.main{
+flex:1;
+padding:20px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.actions button{
+padding:10px 14px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+background:#2563eb;
+color:#fff;
+margin-right:8px;
+font-weight:bold;
+}
+
+/* SECTIONS */
+.section{display:none;animation:fade .3s ease;}
+.active{display:block;}
+
+@keyframes fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* CARDS */
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+}
+
+.card{
+background:rgba(31,41,55,0.8);
+padding:18px;
+border-radius:14px;
+box-shadow:0 0 20px rgba(34,211,238,0.08);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 0 25px rgba(34,211,238,0.25);
+}
+
+/* TABLE */
+table{width:100%;margin-top:15px;border-collapse:collapse;}
+th,td{padding:10px;border-bottom:1px solid #334155;}
+th{color:#22d3ee;}
+
+/* INPUTS */
+input,select{
+padding:10px;
+width:100%;
+margin:6px 0;
+border-radius:8px;
+border:none;
+background:#111827;
+color:#fff;
+}
+
+/* NOTIFICATION */
+.notice{
+background:#1f2937;
+padding:10px;
+border-left:4px solid #22d3ee;
+margin:8px 0;
+border-radius:8px;
+}
+
+/* CHART */
+canvas{
+background:#111827;
+border-radius:12px;
+padding:10px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+<div class="brand">⚡ VIP PRO ADMIN</div>
+<div class="nav">
+<a onclick="show('dashboard')">📊 Dashboard</a>
+<a onclick="show('users')">👤 Users</a>
+<a onclick="show('posts')">📝 Posts</a>
+<a onclick="show('settings')">⚙ Settings</a>
+<a onclick="show('reports')">📈 Reports</a>
+<a onclick="show('logs')">📜 Logs</a>
+<a href="index.html" style="background:#2563eb;color:#fff;">⬅ Go Website</a>
+</div>
+</div>
+
+<div class="main">
+
+<div class="topbar">
+<div class="actions">
+<button onclick="show('dashboard')">🏠 Home</button>
+<button onclick="toggleTheme()">🌗 Theme</button>
+<button onclick="notify()">🔔 Alert</button>
+</div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="section active">
+<div class="cards">
+<div class="card">👥 Users <h2>1,540</h2></div>
+<div class="card">💰 Revenue <h2>$25,430</h2></div>
+<div class="card">🛒 Orders <h2>870</h2></div>
+<div class="card">👁 Visitors <h2>12,900</h2></div>
+</div>
+
+<h3 style="margin-top:20px;">📊 Analytics</h3>
+<canvas id="chart" width="500" height="200"></canvas>
+</div>
+
+<!-- USERS -->
+<div id="users" class="section">
+<h2>User Management</h2>
+<input id="u" placeholder="Enter user name">
+<button onclick="addUser()">Add User</button>
+<table>
+<thead><tr><th>Name</th><th>Action</th></tr></thead>
+<tbody id="ulist"></tbody>
+</table>
+</div>
+
+<!-- POSTS -->
+<div id="posts" class="section">
+<h2>Posts Panel</h2>
+<input placeholder="Post title">
+<input placeholder="Description">
+<button>Add Post</button>
+</div>
+
+<!-- SETTINGS -->
+<div id="settings" class="section">
+<h2>Settings</h2>
+<input value="VIP Website Name">
+<select><option>Dark</option><option>Light</option></select>
+<button>Save Settings</button>
+</div>
+
+<!-- REPORTS -->
+<div id="reports" class="section">
+<h2>Reports</h2>
+<div class="notice">System running smoothly</div>
+<div class="notice">No critical errors found</div>
+</div>
+
+<!-- LOGS -->
+<div id="logs" class="section">
+<h2>Activity Logs</h2>
+<div class="notice">Admin logged in</div>
+<div class="notice">User added</div>
+<div class="notice">Settings updated</div>
+</div>
+
+</div>
+
+<script>
+let users=[];
+
+function show(id){
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
+
+function addUser(){
+let val=document.getElementById('u').value;
+if(val){users.push(val);render();}
+}
+
+function render(){
+let html="";
+users.forEach((u,i)=>{
+html+=`<tr><td>${u}</td><td><button onclick=del(${i})>Delete</button></td></tr>`;
+});
+document.getElementById('ulist').innerHTML=html;
+}
+
+function del(i){users.splice(i,1);render();}
+
+function toggleTheme(){
+document.body.style.filter = document.body.style.filter ? "" : "invert(1) hue-rotate(180deg)";
+}
+
+function notify(){alert("VIP Notification Activated!");}
+
+// SIMPLE CHART
+let c=document.getElementById("chart");
+let ctx=c.getContext("2d");
+ctx.fillStyle="#22d3ee";
+ctx.fillRect(50,50,50,100);
+ctx.fillRect(120,80,50,70);
+ctx.fillRect(190,30,50,120);
+ctx.fillRect(260,60,50,90);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIP Customer Form</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial;}
+body{
+background:radial-gradient(circle at top,#0b1220,#050816);
+color:#fff;
+display:flex;
+min-height:100vh;
+justify-content:center;
+align-items:center;
+}
+
+.container{
+width:100%;max-width:500px;
+background:rgba(17,24,39,0.9);
+backdrop-filter:blur(10px);
+padding:20px;
+border-radius:14px;
+box-shadow:0 0 25px rgba(34,211,238,0.2);
+}
+
+h2{color:#22d3ee;margin-bottom:15px;text-align:center;}
+
+input,textarea{
+width:100%;
+padding:10px;
+margin:8px 0;
+border:none;
+border-radius:8px;
+background:#0f172a;
+color:#fff;
+outline:none;
+}
+
+textarea{height:100px;resize:none;}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#2563eb;
+color:#fff;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{background:#1d4ed8;}
+
+.msg{
+margin-top:10px;
+text-align:center;
+color:#22d3ee;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>VIP Customer Form</h2>
+
+<input type="text" id="name" placeholder="Enter Your Name">
+<input type="email" id="email" placeholder="Enter Your Email">
+<input type="text" id="phone" placeholder="Phone Number">
+<textarea id="msg" placeholder="Your Message..."></textarea>
+
+<button onclick="submitForm()">Submit</button>
+
+<div class="msg" id="status"></div>
+</div>
+
+<script>
+function submitForm(){
+let name=document.getElementById('name').value;
+let email=document.getElementById('email').value;
+let phone=document.getElementById('phone').value;
+let msg=document.getElementById('msg').value;
+
+if(name && email){
+document.getElementById('status').innerText="Form Submitted Successfully ✔";
+console.log({name,email,phone,msg,time:new Date()});
+}else{
+document.getElementById('status').innerText="Please fill required fields";
+}
+}
+</script>
+
+</body>
+</html>
+
+
